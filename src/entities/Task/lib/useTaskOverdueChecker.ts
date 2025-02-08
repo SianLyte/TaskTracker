@@ -16,7 +16,7 @@ export const useTaskOverdueChecker = () => {
       if (tasks.find((task) => task.status === TaskStatus.IN_PROGRESS)) {
         dispatch(setOverdueTasks());
       }
-    }, 60000); 
+    }, 5000); 
 
     return () => clearInterval(interval);
   }, [tasks, dispatch]);
