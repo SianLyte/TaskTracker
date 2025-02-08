@@ -1,12 +1,11 @@
 import { NextResponse } from "next/server";
-import { tasks } from "../route";
 import { TaskStatus } from "@/entities/Task";
 
 
 export async function GET() {
   try {
     const overdueTaskIds: string[] = [];
-    tasks.forEach((task) => {
+    globalThis.tasks.forEach((task) => {
       if (task.status === TaskStatus.IN_PROGRESS && task.startedAt) {
         const taskEndTime = task.startedAt + task.duration * 60 * 1000;
         if (Date.now() > taskEndTime) {

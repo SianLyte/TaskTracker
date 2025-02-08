@@ -15,7 +15,7 @@ const TaskList = () => {
   useEffect(() => {
     dispatch(fetchTasks());
     skipFirstRender.current = false;
-  }, []);
+  }, [dispatch]);
 
   useTaskOverdueChecker();
 

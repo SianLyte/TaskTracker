@@ -40,7 +40,7 @@ const taskSlice = createSlice({
       .addCase(fetchTasks.rejected, (state) => {
         state.loading = false;
       })
-      .addCase(createTask.pending, (state, action) => {
+      .addCase(createTask.pending, (state) => {
         state.creatingCardLoading = true;
       })
       .addCase(createTask.fulfilled, (state, action) => {
@@ -55,9 +55,12 @@ const taskSlice = createSlice({
       })
       .addCase(updateTask.fulfilled, (state, action) => {
         const task = state.tasks.find((t) => t.id === action.payload.id);
-        task ? task.status = action.payload.status : null;
-        task ? task.startedAt = action.payload.startedAt : null;
-        task ? task.completedAt = action.payload.completedAt : null;
+        if (task) {
+          task.status = action.payload.status;
+          task.startedAt = action.payload.startedAt;
+          task.completedAt = action.payload.completedAt;
+        }
+
         state.loadingId = "";
       })
       .addCase(updateTask.rejected, (state, action) => {

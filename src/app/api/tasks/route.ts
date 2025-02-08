@@ -1,14 +1,17 @@
 import { Task, TaskStatus } from "@/entities/Task";
 import { NextResponse } from "next/server";
 
-export let tasks : Task[] = [
-  { id: "1", title: "Сделать UI", description: "Нарисовать прототип", status: TaskStatus.CREATED, duration: 125 },
-  { id: "2", title: "Redux Setup", description: "Настроить Redux Toolkit", status: TaskStatus.CREATED, duration: 93 },
-];
 
+
+if (!globalThis.tasks) {
+  globalThis.tasks = [
+    { id: "1", title: "Сделать UI", description: "Нарисовать прототип", status: TaskStatus.CREATED, duration: 125 },
+    { id: "2", title: "Redux Setup", description: "Настроить Redux Toolkit", status: TaskStatus.CREATED, duration: 93 },
+  ];
+}
 export async function GET() {
   await new Promise((res) => setTimeout(res, 1000));
-  return NextResponse.json(tasks);
+  return NextResponse.json(globalThis.tasks);
 }
 
 export async function POST(req: Request) {
@@ -21,7 +24,7 @@ export async function POST(req: Request) {
     duration,
   };
 
-  tasks.push(newTask);
+  globalThis.tasks.push(newTask);
   return NextResponse.json(newTask);
 }
 
@@ -29,7 +32,7 @@ export async function PATCH(req: Request) {
 
   const { id, status, startedAt, completedAt } = await req.json();
   let newTask;
-  tasks = tasks.map((task) => {
+  globalThis.tasks = globalThis.tasks.map((task) => {
     if (task.id == id) {
       newTask = {
         ...task,
@@ -48,7 +51,7 @@ export async function PATCH(req: Request) {
 
 export async function DELETE(req: Request) {
   const { id } = await req.json();
-  tasks = tasks.filter((task) => task.id !== id);
+  globalThis.tasks = globalThis.tasks.filter((task) => task.id !== id);
   return NextResponse.json({ success: true });
 }
 
