@@ -79,7 +79,7 @@ const taskSlice = createSlice({
       })
       .addCase(setOverdueTasks.fulfilled, (state,action) => {
         state.tasks = state.tasks.map((task) => {
-          if (action.payload.includes(task.id)) {
+          if (action.payload === task.id) {
             return {
               ...task,
               status: TaskStatus.OVERDUE

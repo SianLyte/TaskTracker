@@ -4,18 +4,18 @@ import { TaskStatus } from "@/entities/Task";
 
 export async function GET() {
   try {
-    const overdueTaskIds: string[] = [];
+    let overdueTaskId;
     globalThis.tasks.forEach((task) => {
       if (task.status === TaskStatus.IN_PROGRESS && task.startedAt) {
         const taskEndTime = task.startedAt + task.duration * 60 * 1000;
         if (Date.now() > taskEndTime) {
           task.status = TaskStatus.OVERDUE;
-          overdueTaskIds.push(task.id);
+          overdueTaskId = task.id;
         }
       }
     });
 
-    return NextResponse.json(overdueTaskIds);
+    return NextResponse.json(overdueTaskId);
   } catch (error) {
     console.log(error);
     return NextResponse.json({ success: false, error: "Invalid request" }, { status: 400 });
