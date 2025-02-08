@@ -19,5 +19,5 @@ export const useTaskOverdueChecker = () => {
     }, 60000); 
 
     return () => clearInterval(interval);
-  }, [tasks]);
+  }, [tasks, dispatch]);
 };
